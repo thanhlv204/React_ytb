@@ -3,8 +3,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
-import instance from "../../axios";
-import { data } from "autoprefixer";
+import instance from "../axios";
 
 const schema = z.object({
   title: z.string().min(6, { message: "Tên sản phẩm có ít nhất 6 ký tự" }),
@@ -12,7 +11,7 @@ const schema = z.object({
   description: z.string().optional(),
 });
 
-const ProductEdit = ({ onEdit }) => {
+const ProductForm = ({ handleProduct }) => {
   const { id } = useParams();
   const {
     register,
@@ -23,17 +22,19 @@ const ProductEdit = ({ onEdit }) => {
     resolver: zodResolver(schema),
   });
 
-  useEffect(() => {
-    (async () => {
-      const result = await instance.get(`/products/${id}`);
-      reset(result.data);
-    })();
-  }, []);
+  if (id) {
+    useEffect(() => {
+      (async () => {
+        const result = await instance.get(`/products/${id}`);
+        reset(result.data);
+      })();
+    }, []);
+  }
 
   return (
     <div className="w-50 m-auto">
-      <form onSubmit={handleSubmit((data) => onEdit({ ...data, id }))}>
-        <h1 className="font-bold mb-3"> Product Edit</h1>
+      <form onSubmit={handleSubmit((data) => handleProduct({ ...data, id }))}>
+        <h1 className="font-bold mb-3"> {id ? "Edit" : "Add"} product</h1>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
             title
@@ -75,7 +76,7 @@ const ProductEdit = ({ onEdit }) => {
         </div>
         <div className="mb-3">
           <button type="submit" className="btn btn-primary w-100">
-            Update Product
+            {id ? "Edit" : "Add"} product
           </button>
         </div>
       </form>
@@ -83,4 +84,4 @@ const ProductEdit = ({ onEdit }) => {
   );
 };
 
-export default ProductEdit;
+export default ProductForm;

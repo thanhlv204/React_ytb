@@ -1,11 +1,11 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
-const Dashboard = ({ data }) => {
+const Dashboard = ({ data, removeProduct }) => {
   return (
     <div>
-      <h1> Hello Admin</h1>
-      <Link to="/admin/product-add" className="btn tbn-primary">
+      <h1 className="text-3xl font-bold ml-3"> Hello Admin</h1>
+      <Link to="/admin/product-add" className="btn btn-primary mb-3 mt-3 ml-3">
         Add new product
       </Link>
       <table className="table table-bordered table-striped">
@@ -40,7 +40,12 @@ const Dashboard = ({ data }) => {
                 >
                   Edit
                 </Link>
-                <button className="btn btn-danger">Delete</button>
+                <button
+                  onClick={() => removeProduct(item.id)}
+                  className="btn btn-danger"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
