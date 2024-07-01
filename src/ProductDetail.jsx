@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import instance from "../axios";
+import instance from "./axios";
 import { useEffect, useState } from "react";
 
 const ProductDetail = () => {

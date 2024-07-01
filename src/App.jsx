@@ -1,31 +1,22 @@
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
-import { useEffect, useState } from "react";
-import instance from "./axios";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetail from "./ProductDetail";
+import ProductForm from "./components/ProductForm";
 import Dashboard from "./pages/admin/Dashboard";
-import PrivateRoute from "./pages/PrivateRoute";
-import ProductForm from "./pages/ProductForm";
-import AuthForm from "./pages/AuthForm";
+import PrivateRoute from "./components/PrivateRoute";
+import AuthForm from "./components/AuthForm";
+import LayoutClient from "./layouts/LayoutClient";
+import LayoutAdmin from "./layouts/LayoutAdmin";
 
 function App() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await instance.get("/products");
-        setProducts(data);
-        // console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+  {
+    /*
+     const [products, setProducts] = useState([]);
+
   const nav = useNavigate();
   const removeProduct = (id) => {
     if (confirm("Bạn có chắc chắn muốn xóa?")) {
@@ -58,6 +49,8 @@ function App() {
       nav("/admin");
     }
   };
+    */
+  }
 
   return (
     <>
@@ -65,31 +58,21 @@ function App() {
 
       <main>
         <Routes>
-          <Route path="/" element={<Home data={products} />} />
-          <Route path="/home" element={<Navigate to="/" />} />
-          <Route path="/product-detail/:id" element={<ProductDetail />} />
-          <Route path="/about" element={<About />} />
-
           <Route path="/register" element={<AuthForm isRegister />} />
           <Route path="/login" element={<AuthForm />} />
-          <Route path="/" element={<Navigate to="/admin" />} />
+
+          <Route path="/" element={<LayoutClient />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Navigate to="/" />} />
+            <Route path="/product-detail/:id" element={<ProductDetail />} />
+          </Route>
 
           <Route path="/admin" element={<PrivateRoute />}>
-            <Route
-              path="/admin"
-              element={
-                <Dashboard data={products} removeProduct={removeProduct} />
-              }
-            />
-            <Route
-              path="/admin/product-add"
-              element={<ProductForm handleProduct={handleProduct} />}
-            />
-
-            <Route
-              path="/admin/product-edit/:id"
-              element={<ProductForm handleProduct={handleProduct} />}
-            />
+            <Route path="/admin" element={<LayoutAdmin />}>
+              <Route index element={<Dashboard />} />
+              <Route path="/admin/product-add" element={<ProductForm />} />
+              <Route path="/admin/product-edit/:id" element={<ProductForm />} />
+            </Route>
           </Route>
 
           <Route path="*" element={<NotFound />} />

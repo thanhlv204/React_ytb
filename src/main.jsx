@@ -3,11 +3,14 @@ import App from "./App.jsx";
 import "./index.scss";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
+import ProductContextProvider from "./contexts/ProductContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ProductContextProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ProductContextProvider>
   </React.StrictMode>
 );

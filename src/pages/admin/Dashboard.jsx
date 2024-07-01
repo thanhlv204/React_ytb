@@ -1,7 +1,18 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
+import { ProductContext } from "../../contexts/ProductContext";
+import { useContext } from "react";
+import instance from "../../axios";
 
-const Dashboard = ({ data, removeProduct }) => {
+const Dashboard = () => {
+  const handleRemove = async (id) => {
+    if (confirm("Bạn có chắc chắn muốn xóa?")) {
+      await instance.delete(`/products/${id}`);
+      dispatch({ type: "DELETE_PRODUCTS", payload: id });
+    }
+  };
+
+  const { state, dispatch } = useContext(ProductContext);
   return (
     <div>
       <h1 className="text-3xl font-bold ml-3"> Hello Admin</h1>
@@ -20,7 +31,7 @@ const Dashboard = ({ data, removeProduct }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {state.products.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.title}</td>
@@ -41,8 +52,8 @@ const Dashboard = ({ data, removeProduct }) => {
                   Edit
                 </Link>
                 <button
-                  onClick={() => removeProduct(item.id)}
                   className="btn btn-danger"
+                  onClick={() => handleRemove(item.id)}
                 >
                   Delete
                 </button>

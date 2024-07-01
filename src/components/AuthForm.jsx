@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
