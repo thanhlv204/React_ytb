@@ -4,10 +4,12 @@ import Header from "../components/Header";
 const LayoutClient = () => {
   return (
     <>
-      <Header />
-      <main className="main mb-16">
-        <Outlet />
-      </main>
+      <div>
+        <Header />
+        <main className="main mb-16 ">
+          <Outlet />
+        </main>
+      </div>
     </>
   );
 };

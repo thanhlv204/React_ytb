@@ -15,7 +15,6 @@ const Dashboard = () => {
   const { state, dispatch } = useContext(ProductContext);
   return (
     <div>
-      <h1 className="text-3xl font-bold ml-3"> Hello Admin</h1>
       <Link to="/admin/product-add" className="btn btn-primary mb-3 mt-3 ml-3">
         Add new product
       </Link>
